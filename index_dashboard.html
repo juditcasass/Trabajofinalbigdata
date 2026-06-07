@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Radiografía del alquiler en Barcelona</title>
+
+    <style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    :root {
+    --bg: #f6f1eb;
+        --card: #fffdf9;
+        --text: #152018;
+        --muted: #66736b;
+        --green: #0f6b4f;
+    --green-soft: #dceee6;
+        --border: #e7ded3;
+        --shadow: 0 18px 45px rgba(38, 30, 22, 0.08);
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+        font-family: Georgia, 'Times New Roman', serif;
+        line-height: 1.05;
+    }
+
+    .layout {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        min-height: 100vh;
+    }
+
+    .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        padding: 32px 22px;
+        background: #fbf8f3;
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .logo {
+        text-align: center;
+        font-weight: 800;
+        color: var(--text);
+        margin-bottom: 40px;
+    }
+
+    .logo-icon {
+        font-size: 34px;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .menu a {
+        text-decoration: none;
+        color: var(--text);
+        font-size: 0.9rem;
+        padding: 12px 14px;
+        border-radius: 12px;
+        transition: 0.2s;
+    }
+
+    .menu a:hover,
+    .menu a.active {
+        background: var(--green);
+        color: white;
+    }
+
+    .sidebar-footer {
+        font-size: 0.75rem;
+        color: var(--muted);
+    }
+
+    .page {
+        width: min(1180px, 92%);
+        margin: 0 auto;
+        padding: 60px 0 40px;
+    }
+
+    .hero {
+        min-height: 430px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: center;
+        margin-bottom: 42px;
+    }
+
+    .hero h1 {
+        font-size: clamp(3rem, 6vw, 6rem);
+        margin-bottom: 24px;
+        max-width: 800px;
+
+    }
+
+    .hero .lead {
+        max-width: 620px;
+        color: var(--green);
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 24px;
+    }
+
+    .hero p {
+        max-width: 640px;
+        color: var(--muted);
+    }
+
+    .hero-visual {
+        min-height: 330px;
+        border-radius: 36px;
+        background:
+        linear-gradient(90deg, rgba(246, 241, 235, 0.2), rgba(246, 241, 235, 0.95)),
+        url('https://images.unsplash.com/photo-1583422409516-2895a77efded?auto=format&fit=crop&w=1200&q=80');
+        background-size: cover;
+        background-position: center;
+        box-shadow: var(--shadow);
+    }
+
+    .kpis {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 16px;
+        margin-bottom: 26px;
+    }
+
+    .kpi {
+        background: var(--card);
+        padding: 24px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+    }
+
+    .kpi small {
+        display: block;
+        text-transform: uppercase;
+        font-size: 0.72rem;
+        font-weight: 800;
+        margin-bottom: 14px;
+        color: var(--muted);
+    }
+
+    .kpi strong {
+        font-family: Georgia, 'Times New Roman', serif;
+        display: block;
+        font-size: 1.75rem;
+        margin-bottom: 8px;
+    }
+
+    .kpi span {
+        color: var(--green);
+        font-size: 0.9rem;
+        font-weight: 700;
+    }
+
+    .story-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        box-shadow: var(--shadow);
+        margin: 24px 0;
+        padding: 28px;
+        display: grid;
+        grid-template-columns: 40% 60%;
+        gap: 34px;
+        align-items: stretch;
+    }
+
+    .story-text {
+        border-right: 1px solid var(--border);
+        padding-right: 28px;
+    }
+
+    .number {
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: 2rem;
+        color: var(--green);
+        font-weight: 800;
+        margin-bottom: 18px;
+    }
+
+    .story-text h2 {
+        font-size: 2rem;
+        margin-bottom: 18px;
+    }
+
+    .story-text p {
+        color: var(--muted);
+        margin-bottom: 18px;
+    }
+
+    .insight {
+        margin-top: 28px;
+        background: #eef6f1;
+        border-left: 4px solid var(--green);
+        padding: 18px;
+        border-radius: 14px;
+        font-size: 0.95rem;
+        color: var(--text);
+    }
+
+    .chart-area {
+        min-height: 360px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(180deg, #ffffff, #fbf7f1);
+        border-radius: 18px;
+        border: 1px dashed #d8cec2;
+        overflow: hidden;
+    }
+
+    .chart-area iframe {
+        width: 100%;
+        height: 420px;
+        border: 0;
+    }
+
+    .placeholder {
+        text-align: center;
+        color: var(--muted);
+        padding: 28px;
+    }
+
+    .placeholder strong {
+        display: block;
+        color: var(--green);
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    .conclusion {
+        background: linear-gradient(135deg, #e5f2eb, #fffdf9);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 34px;
+        margin-top: 30px;
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 32px;
+        align-items: center;
+    }
+
+    .conclusion h2 {
+        font-size: 2.2rem;
+    }
+
+    .conclusion ul {
+        list-style: none;
+        display: grid;
+        gap: 14px;
+    }
+
+    .chart-area{
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px dashed #d8cec2;   
+    }
+
+    .conclusion li::before {
+        content: '✓';
+        color: var(--green);
+        font-weight: 800;
+        margin-right: 10px;
+    }
+
+    .methodology {
+        margin: 40px 0 10px;
+        color: var(--muted);
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 980px) {
+        .layout {
+        grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+        position: static;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+        overflow-x: auto;
+    }
+
+    .menu {
+        flex-direction: row;
+    }
+
+    .sidebar-footer {
+        display: none;
+    }
+
+    .hero,
+    .story-card,
+    .conclusion {
+        grid-template-columns: 1fr;
+    }
+
+    .story-text {
+        border-right: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        padding-right: 28px;
+        padding-bottom: 22px;
+    }
+
+    .kpis {
+        grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 620px) {
+        .kpis {
+        grid-template-columns: 1fr;
+        }
+
+        .page {
+        width: 94%;
+        padding-top: 30px;
+        }
+
+        .hero-visual {
+        min-height: 220px;
+        }
+    }
+    .insight-full {
+    grid-column: 1 / -1;
+    width: 100%;
+}
+</style>
+</head>
+
+<body>
+    <div class="layout">
+    <aside class="sidebar">
+        <div>
+        <div class="logo">
+            <span class="logo-icon">⌂</span>
+            Trabajo de curso Intro Big data<br>
+        </div>
+
+        <nav class="menu">
+            <a class="active" href="#inicio">Inicio</a>
+            <a href="#evolucion">Evolución</a>
+            <a href="#accesibilidad">Accesibilidad</a>
+            <a href="#Territorio">Territorio</a>
+            <a href="#Barcelona">Barcelona</a>
+            <a href="#comparativas">Comparativas</a>
+            <a href="#conclusiones">Conclusiones</a>
+
+        </nav>
+        </div>
+
+    </aside>
+
+    <main class="page" id="inicio">
+        <section class="hero">
+        <div>
+            <h1>Radiografía del alquiler en Barcelona</h1>
+            <p class="lead">
+                Análisis de la evolución del alquiler, los salarios y la accesibilidad a la vivienda entre 2015 y 2024.            </p>
+            <p>
+                El acceso a la vivienda en alquiler se ha convertido en uno de los principales desafíos para la población joven. Este proyecto analiza la evolución de los precios del alquiler, los salarios y el esfuerzo económico necesario para acceder a una vivienda, comparando la situación de Barcelona con el conjunto de España.
+            </p>
+        </div>
+        <div class="hero-visual"></div>
+        </section>
+
+    <section class="kpis">
+    <article class="kpi">
+        <small>Crecimiento alquiler BCN</small>
+        <strong>+55,84%</strong>
+        <span>2015 - 2024</span>
+    </article>
+
+    <article class="kpi">
+        <small>Crecimiento alquiler España</small>
+        <strong>+75,68%</strong>
+        <span>2015 - 2024</span>
+    </article>
+
+    <article class="kpi">
+        <small>Esfuerzo acceso BCN</small>
+        <strong>37,65%</strong>
+        <span>sobre salario anual</span>
+    </article>
+
+    <article class="kpi">
+        <small>Esfuerzo acceso España</small>
+        <strong>35,43%</strong>
+        <span>sobre salario anual</span>
+    </article>
+
+    <article class="kpi">
+        <small>Brecha alquiler-salario</small>
+        <strong>49,07%</strong>
+        <span>España, 2024</span>
+    </article>
+    </section>
+
+        <section class="story-card" id="evolucion">
+        <div class="story-text">
+            <h2>01. ¿Ha subido el alquiler más rápido que los salarios?</h2>
+            <p>
+                Entre 2015 y 2024 el precio del alquiler ha crecido mucho más rápido que los salarios. Esta diferencia ha reducido progresivamente la capacidad económica de los jóvenes para acceder a una vivienda en alquiler y ha dificultado los procesos de emancipación.            </p>
+            </p>
+            <div class="insight">
+            Para una persona joven, el alquiler absorbe una parte cada vez mayor de sus ingresos, haciendo más difícil independizarse y acceder a una vivienda de forma autónoma.
+            </div>
+        </div>
+
+        <div class="chart-area">
+            <iframe title="Crecimiento acumulado del alquiler y los salarios en España (2015–2024)" aria-label="Líneas" id="datawrapper-chart-FtqYn" src="https://datawrapper.dwcdn.net/FtqYn/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="475" data-external="1"></iframe>
+
+            <script type="text/javascript">
+            (function(){
+                function e(){
+                    window.addEventListener("message",function(e){
+                        if(e.data["datawrapper-height"]!==void 0){
+                            var t=document.querySelectorAll("iframe");
+                            for(var n in e.data["datawrapper-height"])
+                            for(var r=0,i;i=t[r];r++)
+                            if(i.contentWindow===e.source){
+                                var a=e.data["datawrapper-height"][n]+"px";
+                                i.style.height=a
+                            }
+                        }
+                    })
+                }
+                e()
+            })();
+            </script>
+        </div>
+
+        </section>
+
+        <section class="story-card" id="accesibilidad">
+        <div class="story-text">
+            <h2>02.¿Cuánto cuesta independizarse?</h2>
+            <p>
+                El problema del alquiler no se explica solo por el aumento de los precios, sino por el peso que representa sobre los ingresos. Cuando el esfuerzo de acceso supera el 30% del salario, alquilar deja de ser sostenible para muchos hogares jóvenes.
+            </p>
+            <p>
+            Sarrià - Sant Gervasi aparece como el distrito más caro, mientras que Nou Barris se mantiene como el más asequible.
+            </p>
+            <div class="insight">
+                En 2024, el esfuerzo de acceso al alquiler en España alcanza el 35,43%, por encima del límite recomendado del 30%.
+            </div>
+        </div>
+
+        <iframe title="Evolución del esfuerzo de acceso al alquiler en España (2015–2024)" aria-label="Line chart" id="datawrapper-chart-3tRsT" src="https://datawrapper.dwcdn.net/3tRsT/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="475" data-external="1"></iframe><script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
+        
+        <div class="insight">
+            En 2024, alquilar una vivienda en España requiere destinar aproximadamente el 35% de los ingresos al pago del alquiler, un nivel superior al recomendado y que dificulta especialmente la emancipación juvenil.        </div>
+        </section>
+
+        <section class="story-card" id="Territorio">
+        <div class="story-text">
+            <h2>03. ¿Dónde es más caro vivir?</h2>
+            <p>
+                El coste del alquiler no es igual en todo el territorio. Algunas comunidades autónomas presentan precios muy superiores a la media nacional, lo que genera importantes diferencias en las oportunidades de acceso a la vivienda para la población joven.
+            </p>
+            <div class="insight">
+                Madrid, País Vasco, Cataluña e Islas Baleares presentan los precios del alquiler más elevados de España. La elevada concentración de empleo, actividad económica y oportunidades laborales incrementa la demanda de vivienda, dificultando especialmente el acceso al alquiler para la población joven.
+            </div>
+        </div>
+
+        <iframe title="Distribución territorial del precio del alquiler en España (2024)" aria-label="Choropleth map" id="datawrapper-chart-n8Gyl" src="https://datawrapper.dwcdn.net/n8Gyl/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="532" data-external="1"></iframe><script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
+
+        </div>
+        </section>
+
+        <section class="story-card" id="Barcelona">
+        <div class="story-text">
+            <h2>04. ¿Qué ocurre en Barcelona?</h2>
+
+            <p>
+                Aunque Cataluña se sitúa entre las comunidades con los precios del alquiler más elevados de España, dentro de Barcelona también existen importantes diferencias entre distritos. La localización, la renta media y la concentración de servicios generan fuertes desigualdades en el acceso a la vivienda.
+            </p>
+
+            <div class="insight">
+                Vivir en Sarrià-Sant Gervasi cuesta aproximadamente un 43% más por metro cuadrado que hacerlo en Nou Barris, reflejando las desigualdades territoriales existentes dentro de la ciudad.
+            </div>
+
+            <div class="insight">
+                Los distritos con precios más altos se concentran en zonas céntricas y de mayor renta, mientras que los más asequibles se sitúan principalmente en la periferia. Estas diferencias reflejan desigualdades territoriales que afectan directamente a las oportunidades de emancipación y acceso a la vivienda de los jóvenes.
+            </div>
+        </div>
+
+        <div class="chart-area">
+            <iframe 
+                title="Precio del alquiler por distrito en Barcelona (2025)" 
+                aria-label="Mapa coroplético" 
+                id="datawrapper-chart-YBwK3" 
+                src="https://datawrapper.dwcdn.net/YBwK3/1/" 
+                scrolling="no" 
+                frameborder="0" 
+                style="width: 100%; min-width: 100%; border: none;" 
+                height="469" 
+                data-external="1">
+            </iframe>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        (function () {
+            window.addEventListener("message", function (event) {
+                if (event.data["datawrapper-height"] !== undefined) {
+                    var iframes = document.querySelectorAll("iframe");
+                    for (var chartId in event.data["datawrapper-height"]) {
+                        for (var i = 0; i < iframes.length; i++) {
+                            if (iframes[i].contentWindow === event.source) {
+                                iframes[i].style.height = event.data["datawrapper-height"][chartId] + "px";
+                            }
+                        }
+                    }
+                }   
+            });
+        })();
+        </script>
+
+        <section class="story-card" id="comparativas">
+            <div class="story-text">
+            <h2>05. ¿Es más difícil independizarse en Barcelona que en el conjunto de España?</h2>
+            <p>
+            Aunque el precio del alquiler ha aumentado en toda España, Barcelona continúa presentando una presión económica superior sobre los hogares. Comparar ambos ámbitos permite entender mejor las dificultades que enfrenta la población joven para acceder a una vivienda.            </p>
+            </p>
+
+            <div class="insight insight-full">
+                En 2024, una persona necesitó destinar el 37,65% de sus ingresos al alquiler en Barcelona, frente al 35,43% de media en España. Ambos valores superan el límite recomendado del 30%.
+            </div>
+            </div>
+
+            <div class="chart-area">
+                <iframe title="España vs Barcelona: indicadores de acceso a la vivienda (2015–2024)" aria-label="Grouped Bars" id="datawrapper-chart-OjcYs" src="https://datawrapper.dwcdn.net/OjcYs/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="468" data-external="1"></iframe><script type="text/javascript">(function(){function e(){window.addEventListener(`message`,function(e){if(e.data[`datawrapper-height`]!==void 0){var t=document.querySelectorAll(`iframe`);for(var n in e.data[`datawrapper-height`])for(var r=0,i;i=t[r];r++)if(i.contentWindow===e.source){var a=e.data[`datawrapper-height`][n]+`px`;i.style.height=a}}})}e()})();</script>
+            </div>
+            <div class="insight">
+                La comparación entre España y Barcelona muestra que, aunque el crecimiento acumulado del alquiler ha sido más intenso a nivel nacional, Barcelona mantiene un esfuerzo de acceso superior. 
+                <br><br>
+                Esto implica que los hogares deben destinar una mayor parte de sus ingresos al alquiler, reduciendo su capacidad económica y dificultando especialmente la emancipación de la población joven.
+                <br><br>
+                <strong>📌 Dato clave:</strong>En Barcelona, el esfuerzo de acceso alcanza el 37,65% de los ingresos, superando tanto la media española (35,43%) como el umbral recomendado del 30%.            </div>
+            </div>
+            
+        </div>
+        </section>
+
+        <section class="conclusion" id="conclusiones">
+        <h2>Conclusiones</h2>
+        <ul>
+            <li>1. El precio del alquiler ha crecido mucho más rápido que los salarios</li>
+                <p>Entre 2015 y 2024, el alquiler en España aumentó un <strong>75,68%</strong>, mientras que los salarios solo crecieron un <strong>26,60</strong>. Esta diferencia ha reducido la capacidad adquisitiva de los hogares y ha dificultado el acceso a una vivienda en alquiler.</p>
+            
+            <li>2. El esfuerzo económico para alquilar supera los niveles recomendados</li>
+                <p>Desde 2018, el esfuerzo de acceso al alquiler se sitúa por encima del umbral recomendado del 30% de los ingresos. En 2024 alcanza el <strong>35,43% en España</strong> y el <strong>37,65% en Barcelona</strong>, lo que refleja una creciente dificultad para asumir el coste de la vivienda.</p>
+            <li>3. Existen importantes desigualdades territoriales</li>
+                <p>Madrid, País Vasco, Cataluña e Islas Baleares presentan los precios del alquiler más elevados del país. Estas regiones coinciden con algunos de los principales polos económicos y laborales de España, lo que incrementa la demanda residencial y ejerce presión sobre los precios.</p>
+            <li>4. Barcelona muestra fuertes diferencias entre distritos</li>
+                <p>Los distritos de <strong>Sarrià-Sant Gervasi, Ciutat Vella y Gràcia</strong> registran los precios más altos de la ciudad, mientras que <strong>Nou Barris y Sant Andreu</strong> presentan valores más bajos. Esto evidencia que el acceso a la vivienda también depende de la localización dentro de la propia ciudad.</p>
+            <li>5. La población joven es uno de los colectivos más afectados</li>
+                <p>El incremento sostenido de los precios del alquiler, unido al crecimiento más moderado de los salarios, dificulta la emancipación y retrasa el acceso a una vivienda independiente. La necesidad de destinar una parte cada vez mayor de los ingresos al alquiler limita la capacidad de ahorro y aumenta la dependencia económica de los jóvenes.</p>
+        </ul>
+        <section>
+
+    </main>
+    </div>
+</body>
+</html>
